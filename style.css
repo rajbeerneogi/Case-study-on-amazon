@@ -1,0 +1,126 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.introduction{
+    font-family: 'Syne', sans-serif;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+.introduction h1{
+    color: #333;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+.introduction p{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+}
+.market-analysis{
+    font-family: 'Syne', sans-serif;
+    padding: 20px;
+}
+.market-analysis h2{
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.market-analysis p{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+}
+.market-analysis ul{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+    list-style-type: disc;
+    margin-left: 20px;
+}
+.business-strategy{
+    font-family: 'Syne', sans-serif;
+    padding: 20px;
+}
+.business-strategy h2{
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.business-strategy p{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+}
+.business-strategy ul{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.Sales-market-market-analysis{
+    font-family: 'Syne', sans-serif;
+    padding: 20px;
+}
+.Sales-market-market-analysis h2{
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.Sales-market-market-analysis p{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+}
+.Sales-market-market-analysis ul{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+    list-style-type: disc;
+    margin-left: 20px;
+}
+.hoddie-sales{
+    font-family: 'Syne', sans-serif;
+    padding: 20px;
+}
+.hoddie-sales h2{
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.hoddie-sales p{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+}
+.hoddie-sales ul{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+    list-style-type: disc;
+    margin-left: 20px;
+}
+.conclusion{
+    font-family: 'Syne', sans-serif;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+.conclusion h2{
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.conclusion p{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+}
+.conclusion ul{
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+    list-style-type: disc;
+    margin-left: 20px;
+}

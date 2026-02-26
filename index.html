@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Hoodie Sales Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --accent-color: #4a9eff;
+            --accent-hover: #64b5f6;
+            --text-primary: #e3f2fd;
+            --text-secondary: #90caf9;
+            --gradient-start: #0f1a2e;
+            --gradient-end: #1e3a5f;
+        }
+       
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background: #000000;
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background with floating orbs */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: #000000;
+        }
+        
+        .bg-animation:before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #1a3a5280 0%, transparent 70%);
+            border-radius: 50%;
+            top: -250px;
+            right: -100px;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .bg-animation:after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(30, 58, 95, 0.35) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -200px;
+            left: -150px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-50px) rotate(15deg); }
+            50% { transform: translateY(50px) rotate(-15deg); }
+            75% { transform: translateY(-30px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        /* Navigation with slide down animation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 22, 40, 0.95); 
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--accent-hover);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section with fade in animations */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+        }
+        
+        .hero-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--text-primary);
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+            box-shadow: 0 4px 15px rgba(74, 158, 255, 0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(74, 158, 255, 0.6);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            opacity: 0.7;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-15px); }
+        }
+        
+        /* Section Styles with scroll animations */
+        section {
+            padding: 6rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
+            bottom: -10px;
+            left: 0;
+            border-radius: 2px;
+            animation: expandWidth 1s ease-out 0.5s forwards;
+        }
+        
+        @keyframes expandWidth {
+            to { width: 60%; }
+        }
+        
+        /* Introduction Section */
+        #introduction {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(74, 158, 255, 0.2);
+            padding: 3rem;
+        }
+        
+        .about-amazon {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .about-card {
+            background: rgba(15, 26, 46, 0.6);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(74, 158, 255, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .about-card:hover {
+            transform: translateX(10px);
+            border-color: rgba(74, 158, 255, 0.4);
+        }
+        
+        .about-card h3 {
+            color: var(--accent-color);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+        
+        .about-amazon p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        /* Business Model Section */
+        #business-model {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(74, 158, 255, 0.2);
+            padding: 3rem;
+        }
+        
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .project-card {
+            background: rgba(15, 26, 46, 0.6);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(74, 158, 255, 0.4);
+        }
+        
+        .project-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .project-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        /* Profit and Sales Margin Section */
+        #profit-sales-margin {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(74, 158, 255, 0.2);
+            padding: 3rem;
+        }
+        
+        .case-study {
+            background: rgba(15, 26, 46, 0.6);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+        }
+        
+        .case-study h3 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+        }
+        
+        .case-study p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .hoddie-sales {
+            background: rgba(15, 26, 46, 0.6);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+        }
+        
+        .hoddie-sales h3 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+        }
+        
+        .hoddie-sales p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .profit-sales-margin-meta,
+        .hoddie-sales-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .meta-item {
+            background: rgba(10, 22, 40, 0.8);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(74, 158, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .meta-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(74, 158, 255, 0.3);
+        }
+        
+        .meta-label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .meta-value {
+            display: block;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .meta-note {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+        
+        /* Conclusion Section */
+        #conclusion {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(74, 158, 255, 0.2);
+            padding: 3rem;
+        }
+        
+        .conclusion-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .conclusion-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 5%;
+            background: rgba(10, 22, 40, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--text-secondary);
+            margin-top: 4rem;
+            border-top: 1px solid rgba(74, 158, 255, 0.3);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .projects-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <nav>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#business-model">Business Model</a></li>
+            <li><a href="#profit-sales-margin">Profit & Sales</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <div class="hero-content">
+            <h1 class="hero-title">Amazon Hoodie Sales Case Study</h1>
+            <p class="hero-subtitle">Exploring the performance of hoodies on Amazon and the factors contributing to their success in the e-commerce market.</p>
+            <a href="#introduction" class="cta-button">Let's Begin</a>
+        </div>
+        <div class="scroll-indicator"></div>
+    </header>
+    
+    <section id="introduction">
+        <h2 class="section-title">Introduction to Amazon's E-Commerce Platform</h2>
+        <div class="about-amazon">
+            <div class="about-card">
+                <p>Amazon is a multi-billion dollar E-Commerce Platform responsible for 37.6% of all global e-commerce sales as of the beginning of 2026. Amazon generates hundreds of billions in sales annually, with $67 billion coming from clothing alone—roughly 13% of all global e-commerce clothing sales.</p>
+                <p>The trend of hoodie sales on Amazon has been remarkable, with significant increases in demand and sales volume over the past few decades. This product category has become one of the most successful in the e-commerce clothing space.</p>
+                <p>The E-Commerce landscape, particularly in the clothing market, is one of the most booming and competitive sectors in the digital economy. Today we're discussing one of those opportunities: the sale of hoodies on Amazon. Hoodies have become a major trend in the e-commerce industry, especially popular among Gen-Z and younger millennials.</p>
+                <h3>High-Performing Product Category</h3>
+                <p>In Amazon's E-Commerce ecosystem, hoodies are considered a high-performing product category, particularly during the winter season. Advanced audience targeting focuses on the Gen-Z demographic and younger millennials who are more likely to purchase hoodies online.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="business-model">
+        <h2 class="section-title">Amazon's Business Model</h2>
+        <div class="projects-container">
+            <div class="project-card">
+                <h3>Trust & Value</h3>
+                <p>The Amazon Business Model for clothing is built on trust. Customers confidently purchase products on Amazon because they believe in the platform's reliability and customer service. Users shop not just for competitive prices, but for the value they receive from Amazon's wide range of services.</p>
+            </div>
+            <div class="project-card">
+                <h3>Hybrid Model</h3>
+                <p>Amazon operates a hybrid business model that combines direct sales, third-party seller marketplace, and subscription services like Prime. This diversification across regional markets has made Amazon one of the best contenders in E-commerce.</p>
+            </div>
+            <div class="project-card">
+                <h3>Customer Loyalty</h3>
+                <p>Trust is the foundation of Amazon's success in e-commerce. The company's ability to maintain customer satisfaction, understand customer needs, and drive repeat purchases has made it one of the most successful E-Commerce businesses in the world.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="profit-sales-margin">
+        <h2 class="section-title">Profit and Sales Margin</h2>
+        <div class="case-study">
+            <h3>Profit and Sales Margin Analysis</h3>
+            <p>Amazon's profit margins in the clothing category are influenced by several factors including direct sales, third-party seller commissions, and operational costs. The company's ability to maintain high profit margins is supported by its scale, efficient logistics, and strong brand loyalty.</p>
+            <p>Below is the total sales and profit analysis for Amazon's clothing industry performance during 2024-2025:</p>
+            <div class="profit-sales-margin-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Total Sales (2024-2025)</span>
+                    <span class="meta-value">$139 Billion</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Profit Margins</span>
+                    <span class="meta-value">15%-30%</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Operating Metrics</span>
+                    <span class="meta-value">Gross Profit: 40%-60%</span>
+                    <span class="meta-value">Operating Margin: 11.3%</span>
+                    <span class="meta-note">Note: 👉🏻 These figures are estimates and may vary based on specific product categories and market conditions 👈🏻</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hoddie-sales">
+            <h3>Hoodie Sales Performance</h3>
+            <p>Amazon's hoodie sales have seen consistent growth over 2024-2025. This growth is attributed to effective marketing strategies and strong customer demand for comfortable, stylish apparel.</p>
+            <p>Seasonal trends, particularly during chilly winter months, have driven hoodie sales with affordably priced options performing exceptionally well.</p>
+            <div class="hoddie-sales-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Sales Growth Rate</span>
+                    <span class="meta-value">+6.3%</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Total Revenue</span>
+                    <span class="meta-value">$211.45 Billion</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Growth Trajectory</span>
+                    <span class="meta-value">+6.3% to +7.08%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="conclusion">
+        <h2 class="section-title">Conclusion</h2>
+        <div class="conclusion-content">
+            <p>Amazon's E-Commerce platform has established itself as a dominant player in the global online retail market, particularly in the clothing sector. The company's business model, combining direct sales, third-party marketplace, and subscription services, has contributed significantly to its success and profitability.</p>
+            <p>The analysis of Amazon's profit margins and sales performance reveals that the company maintains healthy profit margins through scale, efficient logistics, and strong brand loyalty. The growth of hoodie sales on Amazon highlights the company's ability to capitalize on consumer trends and preferences.</p>
+            <p>Overall, Amazon's strategic focus on customer satisfaction, operational efficiency, and innovation has enabled it to maintain a strong market position in the competitive e-commerce landscape.</p>
+            <p>This case study provides insights into Amazon's business model, market performance, and strategic initiatives in the clothing category during 2024-2025.</p>
+        </div>
+        <footer>
+            <p>&copy; 2025 Amazon Hoodie Sales Case Study | Rajbeer Neogi</p>
+        </footer>
+    </section>
+    
+    <script>
+        // Intersection Observer for scroll animations
+        const sections = document.querySelectorAll('section');
+        
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+        
+        // Smooth scroll for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
